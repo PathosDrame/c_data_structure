@@ -62,11 +62,11 @@ int insertLinkList(LinkList* list, int pos, Element e) {
 int deleteLinkList(LinkList* list, Element e) {
   Node* node = &list->head;
 
-  while (node && node->next->elem != e) {
+  while (node->next && node->next->elem != e) {
     node = node->next;
   }
 
-  if (node == NULL) {
+  if (node->next == NULL) {
     printf("not found\n");
     return -1;
   }
