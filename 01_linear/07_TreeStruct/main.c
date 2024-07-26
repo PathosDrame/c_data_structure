@@ -27,5 +27,8 @@ int main(int argc, char const* argv[]) {
   preOrderBTreeRecur(tree);
   midOrderBtreeRecur(tree);
   afterOrderBtreeRecur(tree);
+  levelOrderBTree(tree);
+  releaseBinaryTree(tree);
+
   return 0;
 }

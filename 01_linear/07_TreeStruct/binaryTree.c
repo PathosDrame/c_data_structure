@@ -1,5 +1,7 @@
 #include "binaryTree.h"
 
+#include "arrayQueue.h"
+
 BinaryTree* createBinaryTree(TreeNode* root) {
   BinaryTree* tree = (BinaryTree*)malloc(sizeof(BinaryTree));
   if (tree == NULL) {
@@ -16,6 +18,23 @@ BinaryTree* createBinaryTree(TreeNode* root) {
   }
 
   return tree;
+}
+
+static void destroyTreeNode(BinaryTree* root, TreeNode* node) {
+  if (node) {
+    destroyTreeNode(root, node->left);
+    destroyTreeNode(root, node->right);
+    free(node);
+    --root->count;
+  }
+}
+
+void releaseBinaryTree(BinaryTree* root) {
+  if (root) {
+    destroyTreeNode(root, root->root);
+    printf("tree have %d node\n", root->count);
+    free(root);
+  }
 }
 
 TreeNode* createTreeNode(Element e) {
@@ -91,3 +110,19 @@ void afterOrderBtreeRecur(BinaryTree* tree) {
 }
 
 void visitTreeNode(TreeNode* node) { printf("%c\t", node->data); }
+
+void levelOrderBTree(BinaryTree* tree) {
+  ArrayQueue* que = createArrayQueue();
+  pushArrayQueue(que, tree->root);
+  pTreeNode node;
+  while (popArrayQueue(que, &node) != -1) {
+    visitTreeNode(node);
+    if (node->left) {
+      pushArrayQueue(que, node->left);
+    }
+    if (node->right) {
+      pushArrayQueue(que, node->right);
+    }
+  }
+  releaseArrayQueue(que);
+}

@@ -1,3 +1,5 @@
+#ifndef _BINARYTREE_
+#define _BINARYTREE_
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,6 +10,8 @@ typedef struct treeNode {
   struct treeNode* left;
   struct treeNode* right;
 } TreeNode;
+
+typedef TreeNode* pTreeNode;
 
 typedef struct {
   TreeNode* root;
@@ -30,3 +34,6 @@ void midOrderBtreeRecur(BinaryTree* tree);
 void afterOrderBtreeRecur(BinaryTree* tree);
 
 void visitTreeNode(TreeNode* node);
+
+void levelOrderBTree(BinaryTree* tree);
+#endif
