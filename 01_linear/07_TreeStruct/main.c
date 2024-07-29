@@ -28,6 +28,13 @@ int main(int argc, char const* argv[]) {
   midOrderBtreeRecur(tree);
   afterOrderBtreeRecur(tree);
   levelOrderBTree(tree);
+
+  printf("\n");
+  preOrderBTreeNoRecur(tree);
+  inOrderBTreeNoRecur(tree);
+  printf("\n");
+  postOrderBTreeNoRecur(tree);
+
   releaseBinaryTree(tree);
 
   return 0;

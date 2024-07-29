@@ -1,6 +1,7 @@
 #include "binaryTree.h"
 
 #include "arrayQueue.h"
+#include "arrayStack.h"
 
 BinaryTree* createBinaryTree(TreeNode* root) {
   BinaryTree* tree = (BinaryTree*)malloc(sizeof(BinaryTree));
@@ -125,4 +126,65 @@ void levelOrderBTree(BinaryTree* tree) {
     }
   }
   releaseArrayQueue(que);
+}
+
+void preOrderBTreeNoRecur(BinaryTree* tree) {
+  if (tree->root) {
+    ArrayStack* stack = createArrayStack();
+    pTreeNode node = tree->root;
+    pushArrayStack(stack, node);
+    while (popArrayStack(stack, &node) != -1 && node) {
+      visitTreeNode(node);
+      if (node->right) {
+        pushArrayStack(stack, node->right);
+      }
+      if (node->left) {
+        pushArrayStack(stack, node->left);
+      }
+    }
+    releaseArrayStack(stack);
+  }
+}
+
+void inOrderBTreeNoRecur(BinaryTree* tree) {
+  if (tree->root) {
+    ArrayStack* stack = createArrayStack();
+    pTreeNode node = tree->root;
+    while (stack->top >= 0 || node) {
+      if (node) {
+        pushArrayStack(stack, node);
+        node = node->left;
+      } else {
+        popArrayStack(stack, &node);
+        visitTreeNode(node);
+        node = node->right;
+      }
+    }
+    releaseArrayStack(stack);
+  }
+}
+
+void postOrderBTreeNoRecur(BinaryTree* tree) {
+  if (tree) {
+    ArrayStack* stack1 = createArrayStack();
+    ArrayStack* stack2 = createArrayStack();
+
+    TreeNode* node;
+    pushArrayStack(stack1, tree->root);
+    while (popArrayStack(stack1, &node) != -1) {
+      pushArrayStack(stack2, node);
+      if (node->left) {
+        pushArrayStack(stack1, node->left);
+      }
+      if (node->right) {
+        pushArrayStack(stack1, node->right);
+      }
+    }
+    while (popArrayStack(stack2, &node) != -1) {
+      visitTreeNode(node);
+    }
+
+    releaseArrayStack(stack1);
+    releaseArrayStack(stack2);
+  }
 }
