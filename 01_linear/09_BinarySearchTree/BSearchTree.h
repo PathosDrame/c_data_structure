@@ -21,8 +21,14 @@ void releaseBST(BST *bst);
 
 void insertBSTNoRecur(BST *bst, Element elem);
 
+void insertBSTRecur(BST *bst, Element elem);
+
 Node *searchBST(BST *bst, Element elem);
 
 void inOrderBST(BST *bst);
 
 int heightBST(BST *bst);
+
+void deleteBSTNoRecur(BST *bst, Element elem);
+
+int heightBSNode(Node *node);

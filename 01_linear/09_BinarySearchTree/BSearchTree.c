@@ -83,6 +83,23 @@ void insertBSTNoRecur(BST* bst, Element elem) {
   ++bst->count;
 }
 
+static Node* insertBSTNodeRecur(BST* bst, Node* node, Element e) {
+  if (node == NULL) {
+    bst->count++;
+    return createNode(e);
+  }
+  if (e < node->data) {
+    node->left = insertBSTNodeRecur(bst, node->left, e);
+  } else if (e > node->data) {
+    node->right = insertBSTNodeRecur(bst, node->right, e);
+  }
+  return node;
+}
+
+void insertBSTRecur(BST* bst, Element elem) {
+  bst->root = insertBSTNodeRecur(bst, bst->root, elem);
+}
+
 Node* searchBST(BST* bst, Element elem) {
   Node* node = bst->root;
 
@@ -116,4 +133,76 @@ void inOrderBST(BST* bst) {
 int heightBST(BST* bst) {
   int ans = 0;
   return ans;
+}
+
+static void deleteMinNode(Node* node) {
+  Node* mini = node->right;
+  Node* pre = node;
+  while (mini && mini->left) {
+    pre = mini;
+    mini = mini->left;
+  }
+  node->data = mini->data;
+  if (pre->data == node->data) {
+    pre->right = mini->right;
+  } else {
+    pre->left = mini->right;
+  }
+  free(mini);
+}
+
+void deleteBSTNoRecur(BST* bst, Element elem) {
+  Node* node = bst->root;
+  Node* pre = NULL;
+  Node* tmp = NULL;
+  while (node) {
+    if (elem < node->data) {
+      pre = node;
+      node = node->left;
+    } else if (elem > node->data) {
+      pre = node;
+      node = node->right;
+    } else {
+      break;
+    }
+  }
+
+  if (pre && node) {
+    if (node->left == NULL) {
+      tmp = node->right;
+    } else if (node->right == NULL) {
+      tmp = node->left;
+    } else {
+      deleteMinNode(node);
+      bst->count--;
+      return;
+    }
+
+    if (node->data < pre->data) {
+      pre->left = tmp;
+    } else {
+      pre->right = tmp;
+    }
+    free(node);
+    bst->count--;
+    return;
+  }
+
+  if (pre == NULL) {
+    deleteMinNode(node);
+    bst->count--;
+  }
+}
+
+int heightBSNode(Node* node) {
+  if (node == NULL) {
+    return 0;
+  }
+  int left = heightBSNode(node->left);
+  int right = heightBSNode(node->right);
+  if (left > right) {
+    return left + 1;
+  } else {
+    return right + 1;
+  }
 }
