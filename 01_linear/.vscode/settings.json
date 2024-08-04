@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "bsearchtree.h": "c"
+    "bsearchtree.h": "c",
+    "quickunionset.h": "c"
   }
 }
